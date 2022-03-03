@@ -41,3 +41,4 @@ process.on('SIGINT', function(){
 });
 
 require('./patient')
+require('./users')
