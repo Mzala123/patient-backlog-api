@@ -59,6 +59,26 @@ module.exports.login = function(req, res){
     })(req, res);
 }
 
+
+module.exports.read_one_user = function(req, res){
+    var email = req.body.email
+    if(!email){
+        sendJSONresponse(res, 400, {"message":"email is required"})
+    }else{
+        User
+          .find({"email":email})
+          .exec(function(err){
+            if(err){
+                sendJSONresponse(res, 401, err)
+            }else{
+                sendJSONresponse(res, 200, {message:"This email is already in use"})
+            }
+          })
+    }
+
+}
+
+
 module.exports.list_of_users = function(req, res){
         User
          .find({})
