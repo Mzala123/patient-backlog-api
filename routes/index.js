@@ -8,7 +8,7 @@ var ctrlAuth = require('../controllers/authentication')
 
 router.post('/patient', ctrlPatient.createPatient)
 router.get('/patient', ctrlPatient.list_of_patients)
-router.get('/read_one_patient/:patient_id', ctrlPatient.read_one_patient)
+router.get('/read_one_patient/:patientId', ctrlPatient.read_one_patient)
 
 router.post('/register', ctrlAuth.register)
 router.post('/login', ctrlAuth.login)

@@ -44,11 +44,11 @@ module.exports.list_of_patients = function(req, res){
 }
 
 module.exports.read_one_patient = function(req, res){
-        if(!req.params.patient_id){
+        if(!req.params.patientId){
             sendJSONresponse(res, 404, {"message":"patient id is required!"})
-        }else if(req.params && req.params.patient_id){
+        }else if(req.params && req.params.patientId){
              Patient
-                .findById(req.params.patient_id)
+                .findById(req.params.patientId)
                 .exec(function(err, patient){
                     if(!patient){
                        sendJSONresponse(res, 404, {"message": "no such patient record"})
