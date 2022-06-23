@@ -6,7 +6,7 @@ mongoose.connection.on('connection', function(){
     console.log('mongoose connected to ' +dbURL);
  });
  
-mongoose.connection.on('error', function(){
+mongoose.connection.on('error', function(err){
      console.log('mongoose connection error ' +err);
   });
 

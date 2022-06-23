@@ -5,7 +5,8 @@ var patientSchema = new mongoose.Schema({
     lastname: {type: String, required: true},
     gender: {type: String},
     birthdate: {type: Date},
-    currentAddress: {type: String},
+    district: {type: String},
+    village: {type: String},
     occupation: {type: String}
 })
 

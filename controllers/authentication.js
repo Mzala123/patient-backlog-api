@@ -27,11 +27,13 @@ module.exports.register = function(req, res){
        }else{
            token = user.generateJwt()
            sendJSONresponse(res, 200,{
-               "token": token
+               "token": token, "user":user
            })
        }
    })
 }
+
+
 
 module.exports.login = function(req, res){
     if(!req.body.email || !req.body.password){
@@ -55,4 +57,17 @@ module.exports.login = function(req, res){
             sendJSONresponse(res, 401, info)
         }
     })(req, res);
+}
+
+module.exports.list_of_users = function(req, res){
+        User
+         .find({})
+         .exec(function(err, users){
+            if(err){
+                sendJSONresponse(res, 401, err)
+            }else{
+                sendJSONresponse(res, 200, users)
+            }
+         })
+
 }
