@@ -14,6 +14,7 @@ router.post('/register', ctrlAuth.register)
 router.post('/login', ctrlAuth.login)
 router.get('/users_list', ctrlAuth.list_of_users)
 router.get('/read_one_user', ctrlAuth.read_one_user)
+router.post('/patient/:patientId/add_patient_diagnosis', ctrlPatient.add_patient_diagnosis)
 
 
 module.exports = router;

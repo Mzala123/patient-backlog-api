@@ -2,7 +2,8 @@ var mongoose = require('mongoose')
 
 var healthRecordSchema = new mongoose.Schema({
     weight: {type: Number, required: true},
-    hieght: {type: Number, required: true},
+    height: {type: Number, required: true},
+    visit_date: {type: Date, "default":Date.now},
     temparature: {type: String, requierd:true},
     diagnosis: {type: String}
 })

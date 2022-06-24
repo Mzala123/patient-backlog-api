@@ -61,4 +61,44 @@ module.exports.read_one_patient = function(req, res){
                 })
         }
 }
+
+module.exports.add_patient_diagnosis = function(req, res){
+       var patientId = req.params.patientId
+       if(patientId){
+         Patient
+           .findById(patientId)
+           .select('health_record')
+           .exec(function(err, patient){
+              if(err){
+                sendJSONresponse(res, 404, err)
+              }else{
+                addDiagnosis(req, res, patient)
+              }
+           })
+       }else{
+          sendJSONresponse(res, 404, {"message":"Not found patient required"})
+       }       
+}
+
+var addDiagnosis = function(req, res, patient){
+    if(!patient){
+        sendJSONresponse(res, 404, {"message":"diagnosis not available"})
+    }else{
+        patient.health_record.push({
+            weight: req.body.weight,
+            height: req.body.height,
+            temparature: req.body.temparature,
+            diagnosis: req.body.diagnosis
+        })
+        patient.save(function(err, patient){
+            var thisDiagnosis
+            if(err){
+              sendJSONresponse(res, 400, err)
+            }else{
+              thisDiagnosis = patient.health_record[patient.health_record.length -1]
+              sendJSONresponse(res, 201, thisDiagnosis)
+            }
+        })
+    }
+}
   
