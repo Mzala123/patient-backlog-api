@@ -77,7 +77,7 @@ module.exports.read_one_user = function(req, res){
             else if(err){
                 sendJSONresponse(res, 401, err)
             }else if(user){
-                sendJSONresponse(res, 200, {message:"This email is already in use","email":user.email})
+                sendJSONresponse(res, 200, {message:"Email already in use with another Account","email":user.email})
             }
           })
     }
