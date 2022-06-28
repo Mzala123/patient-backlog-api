@@ -4,6 +4,7 @@ var router = express.Router();
 /* path definition */
 
 
+
 var ctrlPatient = require('../controllers/patient')
 var ctrlAuth = require('../controllers/authentication')
 
