@@ -40,11 +40,19 @@ app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  res.header('Access-Control-Allow-Headers, *, Access-Control-Allow-Origin', 'Origin, X-Requested-with, Content_Type,Accept,Authorization','http://localhost:3000');
+  if(req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods','PUT,POST,PATCH,DELETE,GET');
+      return res.status(200).json({});
+  }
+  next();
+
+  //next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
+  
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
