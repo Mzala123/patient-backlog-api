@@ -7,8 +7,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
 
-
-
 require('./model/db')
 require('./config/passport')
 
@@ -27,6 +25,17 @@ app.set('view engine', 'jade');
 // app.use(cors({origin: allowedDomains, credentials: true }))
 
 app.use(cors())
+
+app.use((req,res,next)=>{
+  res.header('Access-Control-Allow-Headers, *, Access-Control-Allow-Origin', 'Origin, X-Requested-with, Content_Type,Accept,Authorization','http://localhost:8080');
+  if(req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods','PUT,POST,PATCH,DELETE,GET');
+      return res.status(200).json({});
+  }
+  next();
+});
+
+
 app.use(logger('dev'));
 app.use(express.json());
 /*app.use(bodyParser.json());
