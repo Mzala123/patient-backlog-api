@@ -17,10 +17,12 @@ const passport = require('passport');
 var app = express();
 
 // view engine setup
+app.use(cors())
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(cors())
+
+
 app.use(logger('dev'));
 app.use(express.json());
 /*app.use(bodyParser.json());

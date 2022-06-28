@@ -1,7 +1,9 @@
 var passport = require('passport')
 var mongoose = require('mongoose')
 const { use } = require('passport')
-var User = mongoose.model('User')
+const User = mongoose.model('User')
+
+
 
 var sendJSONresponse = function(res, status, content){
     res.status(status)
@@ -26,7 +28,7 @@ module.exports.register = function(req, res){
            sendJSONresponse(res, 400, err)
        }else{
            token = user.generateJwt()
-           sendJSONresponse(res, 200,{
+           sendJSONresponse(res, 201,{
                "token": token, "user":user
            })
        }
@@ -61,17 +63,21 @@ module.exports.login = function(req, res){
 
 
 module.exports.read_one_user = function(req, res){
-    var email = req.body.email
+    var email = req.params.email
+    console.log("The email in the form is "+email);
     if(!email){
         sendJSONresponse(res, 400, {"message":"email is required"})
-    }else{
+    }else if(req.params && email){
         User
-          .find({"email":email})
-          .exec(function(err){
-            if(err){
+          .findOne({email:email})
+          .exec(function(err, user){
+            if(!user){
+                sendJSONresponse(res, 404, {"message":"no such email record"})
+            }  
+            else if(err){
                 sendJSONresponse(res, 401, err)
-            }else{
-                sendJSONresponse(res, 200, {message:"This email is already in use"})
+            }else if(user){
+                sendJSONresponse(res, 200, {message:"This email is already in use","email":user.email})
             }
           })
     }
@@ -80,14 +86,15 @@ module.exports.read_one_user = function(req, res){
 
 
 module.exports.list_of_users = function(req, res){
-        User
-         .find({})
-         .exec(function(err, users){
-            if(err){
-                sendJSONresponse(res, 401, err)
-            }else{
-                sendJSONresponse(res, 200, users)
-            }
-         })
+    User
+    .find({},{name:1,email:1})
+    .exec(function(err, user){
+        if(err){
+          sendJSONresponse(res, 404, err)
+        }else{
+            console.log(user)
+            sendJSONresponse(res, 200, user)
+        }
+    })
 
 }
