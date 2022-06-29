@@ -29,7 +29,7 @@ app.use(cors(
     exposedHeaders: ["authorization"], // you can change the headers
     origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false
+    preflightContinue: true
   }
 ))
 app.options('*', cors())
