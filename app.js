@@ -23,16 +23,9 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(cors(
-  {
-    allowedHeaders: ["authorization", "Content-Type"], // you can change the headers
-    exposedHeaders: ["authorization"], // you can change the headers
-    origin: ["http://localhost:8080"],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true
-  }
-))
-app.options('*', cors())
+app.use(cors())
+
+//app.options('*', cors())
 
 app.use(logger('dev'));
 app.use(express.json());
