@@ -15,9 +15,7 @@ var usersRouter = require('./routes/users');
 const passport = require('passport');
 
 var app = express();
-app.use(cors({
-origin: "http://localhost:3000", 
-credentials: true,}))
+app.use(cors())
 
 // view engine setup
 
