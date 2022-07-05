@@ -4,8 +4,8 @@ var healthRecordSchema = new mongoose.Schema({
     weight: {type: Number, required: true},
     height: {type: Number, required: true},
     visit_date: {type: Date, "default":Date.now},
-    temparature: {type: String, requierd:true},
-    diagnosis: {type: String}
+    temperature: {type: String, requierd:true},
+    diagnosis: {type: String, required:true}
 })
 
 var patientSchema = new mongoose.Schema({

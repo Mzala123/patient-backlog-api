@@ -18,6 +18,7 @@ router.post('/register', ctrlAuth.register)
 router.post('/login', ctrlAuth.login)
 router.get('/list_of_users', ctrlAuth.list_of_users)
 router.get('/read_one_user/:email', ctrlAuth.read_one_user)
+router.get('/users_list_view', ctrlAuth.users_list_view)
 
 
 

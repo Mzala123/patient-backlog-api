@@ -87,7 +87,7 @@ var addDiagnosis = function(req, res, patient){
         patient.health_record.push({
             weight: req.body.weight,
             height: req.body.height,
-            temparature: req.body.temparature,
+            temperature: req.body.temperature,
             diagnosis: req.body.diagnosis
         })
         patient.save(function(err, patient){

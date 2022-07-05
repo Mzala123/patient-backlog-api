@@ -98,3 +98,28 @@ module.exports.list_of_users = function(req, res){
     })
 
 }
+
+module.exports.users_list_view = function(req, res){
+          User
+            .createCollection
+            (
+                "userlist",
+                {
+                    "viewOn": "users",
+                    "pipeline":
+                    [
+                        {$match: {email:'zackxbaby@gmail.com'}}
+                    ]
+                }
+            )
+
+            userlist
+              .find()
+              .exec((err, data)=>{
+                if(err){
+                    sendJSONresponse(res, 401, err)
+                }else{
+                    sendJSONresponse(res, 200, data)
+                }
+              })
+}
