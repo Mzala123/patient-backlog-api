@@ -1,6 +1,7 @@
 var passport = require('passport')
 var mongoose = require('mongoose')
 const { use } = require('passport')
+const { json } = require('body-parser')
 const User = mongoose.model('User')
 
 
@@ -99,27 +100,14 @@ module.exports.list_of_users = function(req, res){
 
 }
 
-module.exports.users_list_view = function(req, res){
-          User
-            .createCollection
-            (
-                "userlist",
-                {
-                    "viewOn": "users",
-                    "pipeline":
-                    [
-                        {$match: {email:'zackxbaby@gmail.com'}}
-                    ]
-                }
-            )
-
-            userlist
-              .find()
-              .exec((err, data)=>{
-                if(err){
-                    sendJSONresponse(res, 401, err)
-                }else{
-                    sendJSONresponse(res, 200, data)
-                }
-              })
+module.exports.count_of_users = function(req, res){
+         User
+         .countDocuments({})
+         .exec(function(err, user){
+              if(err){
+                sendJSONresponse(res, 401, err)
+              }else{
+                sendJSONresponse(res, 200, user)
+              }
+         })
 }

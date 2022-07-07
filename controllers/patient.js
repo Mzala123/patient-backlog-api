@@ -101,4 +101,39 @@ var addDiagnosis = function(req, res, patient){
         })
     }
 }
+
+module.exports.patients_count_by_gender = function(req, res){
+        Patient
+          .aggregate([
+            {
+              $group: {
+                _id: '$gender',
+                patientCount: {$count: {}},
+              }
+            }, 
+             {$sort:{'patientCount':1}}
+          ]
+          ).exec(function(err, patient){
+             if(err){
+              sendJSONresponse(res, 404, err)
+             }else{ 
+              sendJSONresponse(res, 200, patient)
+             }
+          })
+}
+
+module.exports.count_all_patients = function(req, res){
+       Patient
+          .countDocuments({})
+          .exec(function(err, patient){
+            if(err){
+              sendJSONresponse(res, 404, err)
+            }else{
+              sendJSONresponse(res, 200, patient)
+            }
+          })
+          
+}
+
+
   
