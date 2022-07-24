@@ -1,10 +1,35 @@
 const { default: mongoose } = require("mongoose")
 var Patient = mongoose.model("patient")
+const Pusher = require("pusher")
+
+const pusher = new Pusher({
+  appId: "1442053",
+  key: "7886c74cb280b6831fcb",
+  secret: "c8496aa468bb5e059d1a",
+  cluster: "ap2",
+  useTLS: true
+});
+
 
 var sendJSONresponse = function(res, status, content){
     res.status(status)
     res.json(content)
 }
+
+//start trial pusher
+module.exports.trial_pusher = function(req, res){
+     sendJSONresponse(res, 200, {message:"Trial by fire pusher"})
+}
+
+module.exports.create_trial_pusher = function(req, res){
+     pusher.trigger("os-poll", "os-vote", {
+         points: 1,
+
+     })
+     return sendJSONresponse(res, 200, {message:"Trial working"})
+}
+
+//Trial pusher
 
 module.exports.createPatient = function(req, res){
     if(!req.body.firstname || !req.body.lastname || !req.body.gender){

@@ -8,6 +8,9 @@ var router = express.Router();
 var ctrlPatient = require('../controllers/patient')
 var ctrlAuth = require('../controllers/authentication')
 
+router.get('/trial_pusher', ctrlPatient.trial_pusher)
+router.post('/trial_pusher', ctrlPatient.create_trial_pusher)
+
 router.post('/patient', ctrlPatient.createPatient)
 router.get('/patient', ctrlPatient.list_of_patients)
 router.get('/read_one_patient/:patientId', ctrlPatient.read_one_patient)
