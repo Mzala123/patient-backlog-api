@@ -24,9 +24,9 @@ module.exports.trial_pusher = function(req, res){
 module.exports.create_trial_pusher = function(req, res){
      pusher.trigger("os-poll", "os-vote", {
          points: 1,
-
+         os: req.body.os
      })
-     return sendJSONresponse(res, 200, {message:"Trial working"})
+     return sendJSONresponse(res, 200, {message:"Thank you for voting"})
 }
 
 //Trial pusher
@@ -85,6 +85,41 @@ module.exports.read_one_patient = function(req, res){
                     }
                 })
         }
+}
+
+module.exports.update_patient = function(req, res){
+     
+      var firstname = req.body.firstname
+      var lastname = req.body.lastname
+      var district = req.body.district
+      var gender = req.body.gender
+      var village = req.body.village
+      var birthdate = req.body.birthdate
+      var occupation = req.body.occupation
+
+       if(!req.params.patientId){
+          sendJSONresponse(res, 404, {"message":"patient id is required"})
+       }else if(req.params && req.params.patientId){
+          Patient.updateOne({_id: req.params.patientId},
+               {
+                 $set:{
+                     firstname: firstname,
+                     lastname: lastname,
+                     gender: gender,
+                     birthdate: birthdate,
+                     district: district,
+                     village: village,
+                     occupation: occupation  
+                 }
+               }  
+            ).exec(function(err){
+              if(err){
+                sendJSONresponse(res, 404, err)
+              }else{
+                 sendJSONresponse(res, 200, {"message":"patient record updated!"})
+              }
+            })   
+       }
 }
 
 module.exports.add_patient_diagnosis = function(req, res){
