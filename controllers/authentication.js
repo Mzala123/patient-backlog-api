@@ -22,7 +22,6 @@ module.exports.register = function(req, res){
    user.name = req.body.name
    user.email = req.body.email
    user.setPassword(req.body.password)
-
    user.save(function(err){
        var token
        if(err){
@@ -54,7 +53,7 @@ module.exports.login = function(req, res){
         if(user){
             token = user.generateJwt()
             sendJSONresponse(res, 200,{
-                "token":token, "name":user.name, "email": user.email
+                "token":token, "name":user.name, "email": user.email, "_id":user._id
             })
         }else{
             sendJSONresponse(res, 401, info)
@@ -62,6 +61,44 @@ module.exports.login = function(req, res){
     })(req, res);
 }
 
+module.exports.update_one_user = function(req, res){
+     var name = req.body.name
+     if(!req.params.userId){
+         sendJSONresponse(res, 404, {"message":"user id not found!"})
+     }else if(req.params && req.params.userId){
+        User.updateOne({_id: req.params.userId},
+            {
+            $set:{
+                name: name
+             }
+             
+            }
+        ).exec(function(err){
+            if(err){
+                sendJSONresponse(res, 401,{"message":"Failed to update username"})
+            }else{
+                sendJSONresponse(res, 200, {"message":"user updated successfully"})
+            }
+        })
+           
+     }
+}
+
+module.exports.read_user_by_id = function(req, res){
+      if(!req.params.userId){
+        sendJSONresponse(res, 404,{"message":"user id not found!"})
+      }else if(req.params && req.params.userId){
+         User
+           .findById({_id: req.params.userId}, {email:1, name:1})
+           .exec(function(err, data){
+               if(err){
+                   sendJSONresponse(res, 401, {"message":"An error occured"+err})
+               }else{
+                sendJSONresponse(res, 200, data)
+               }
+           })
+      }
+}
 
 module.exports.read_one_user = function(req, res){
     var email = req.params.email
@@ -70,7 +107,7 @@ module.exports.read_one_user = function(req, res){
         sendJSONresponse(res, 400, {"message":"email is required"})
     }else if(req.params && email){
         User
-          .findOne({email:email})
+          .findOne({email:email}, {email:1, name:1})
           .exec(function(err, user){
             if(!user){
                 sendJSONresponse(res, 404, {"message":"no such email record"})
