@@ -3,11 +3,11 @@
 /**
  * Module dependencies.
  */
-
+//we are changing line sevent to fit our socket.io agenda
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
-
+let socketapi = require('../socketapi')
 /**
  * Get port from environment and store in Express.
  */
@@ -18,8 +18,9 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
+//we are changing line 22 to handle socket
 var server = http.createServer(app);
+socketapi.io.attach(server)
 
 /**
  * Listen on provided port, on all network interfaces.

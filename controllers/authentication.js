@@ -53,10 +53,11 @@ module.exports.login = function(req, res){
         if(user){
             token = user.generateJwt()
             sendJSONresponse(res, 200,{
-                "token":token, "name":user.name, "email": user.email, "_id":user._id
+                "token":token, 
+                 "name":user.name, "email": user.email, "_id":user._id
             })
         }else{
-            sendJSONresponse(res, 401, info)
+            sendJSONresponse(res, 401, {"message":info})
         }
     })(req, res);
 }
@@ -79,8 +80,7 @@ module.exports.update_one_user = function(req, res){
             }else{
                 sendJSONresponse(res, 200, {"message":"user updated successfully"})
             }
-        })
-           
+        })         
      }
 }
 

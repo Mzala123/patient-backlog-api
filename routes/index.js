@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 /* path definition */
-
-
+// router.get('/', function(req, res, next) {
+//     //res.send('respond with a resource.');
+//     res.render('index', { title: 'Express Mtende' });
+//   });
 
 var ctrlPatient = require('../controllers/patient')
 var ctrlAuth = require('../controllers/authentication')
@@ -28,7 +30,6 @@ router.get('/read_one_user/:email', ctrlAuth.read_one_user)
 router.get('/read_user_by_id/:userId', ctrlAuth.read_user_by_id)
 router.put('/update_one_user/:userId', ctrlAuth.update_one_user)
 router.get('/count_of_users', ctrlAuth.count_of_users)
-
 
 
 module.exports = router;
