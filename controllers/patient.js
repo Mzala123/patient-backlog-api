@@ -35,7 +35,7 @@ module.exports.createPatient = function (req, res) {
   patient.village = req.body.village
   patient.occupation = req.body.occupation
 
-  patient.save(function (err) {
+  patient.save(function (err, data) {
     if (err) {
       sendJSONresponse(res, 404, { "err": err, "message": "Failed to create patient record" })
     } else {
