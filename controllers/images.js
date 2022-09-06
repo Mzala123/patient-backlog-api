@@ -8,7 +8,9 @@ var sendJSONresponse = function (res, status, content) {
 
 module.exports.getImages = async function(req, res){
      try{
+
         let images = await  Image.find({}, "-__v")
+        console.log(images)
         sendJSONresponse(res, 200, {images, "message":"image info fetched"})
      }catch(error){
         console.log(error)
