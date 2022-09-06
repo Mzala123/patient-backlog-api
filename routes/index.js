@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-/* path definition */
-// router.get('/', function(req, res, next) {
-//     //res.send('respond with a resource.');
-//     res.render('index', { title: 'Express Mtende' });
-//   });
+//define service for multer
+const upload = require("../services/upload")
 
 var ctrlPatient = require('../controllers/patient')
 var ctrlAuth = require('../controllers/authentication')
+
+//requiring controller for image uploads 
+var ctrlImg = require("../controllers/images")
 
 router.get('/trial_pusher', ctrlPatient.trial_pusher)
 router.post('/trial_pusher', ctrlPatient.create_trial_pusher)
@@ -22,7 +22,6 @@ router.post('/patient/:patientId/add_patient_diagnosis', ctrlPatient.add_patient
 router.get('/patients_count_by_gender',ctrlPatient.patients_count_by_gender)
 router.get('/count_all_patients', ctrlPatient.count_all_patients)
 
-
 router.post('/register', ctrlAuth.register)
 router.post('/login', ctrlAuth.login)
 router.get('/list_of_users', ctrlAuth.list_of_users)
@@ -31,5 +30,8 @@ router.get('/read_user_by_id/:userId', ctrlAuth.read_user_by_id)
 router.put('/update_one_user/:userId', ctrlAuth.update_one_user)
 router.get('/count_of_users', ctrlAuth.count_of_users)
 
+// cloudinary image post and get routes
+router.post('/upload_image', upload.single("picture"), ctrlImg.uploadImage)
+router.get('/get_images', ctrlImg.getImages)
 
 module.exports = router;
