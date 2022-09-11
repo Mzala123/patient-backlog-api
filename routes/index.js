@@ -10,9 +10,6 @@ var ctrlAuth = require('../controllers/authentication')
 //requiring controller for image uploads 
 var ctrlImg = require("../controllers/images")
 
-router.get('/trial_pusher', ctrlPatient.trial_pusher)
-router.post('/trial_pusher', ctrlPatient.create_trial_pusher)
-
 router.post('/patient', ctrlPatient.createPatient)
 router.get('/patient', ctrlPatient.list_of_patients)
 
@@ -33,5 +30,8 @@ router.get('/count_of_users', ctrlAuth.count_of_users)
 // cloudinary image post and get routes
 router.post('/upload_image', upload.single("picture"), ctrlImg.uploadImage)
 router.get('/get_images', ctrlImg.getImages)
+
+// socket.io with rest APIs
+router.post('/socket_trial', ctrlImg.socket_trial)
 
 module.exports = router;

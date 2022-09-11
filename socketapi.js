@@ -3,9 +3,11 @@ const io = require("socket.io")({
         origin:'*'
     }
 })
+
 const socketapi = {
-    io: io
+   io: io
 }
+
 
 io.on('connection', function(socket){
     console.log("A user mtende patient systems connected", socket.id)
@@ -18,5 +20,6 @@ io.on('connection', function(socket){
         console.log(`user ${socket.id} left`)
     })
 })
-
+//app.set('socketio', io)
 module.exports = socketapi
+

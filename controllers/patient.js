@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose")
 var Patient = mongoose.model("patient")
 var socketapi = require('../socketapi')
+const async = require("async")
 
 
 var sendJSONresponse = function (res, status, content) {
@@ -8,28 +9,6 @@ var sendJSONresponse = function (res, status, content) {
   res.json(content)
 }
 
-//start trial pusher
-module.exports.trial_pusher = function (req, res) {
-
-
-}
-
-module.exports.create_trial_pusher = function (req, res) {
-  socketapi.io.on("connection", function (socket) {
-    data = {
-      points: 1,
-      os: req.body.os
-    }
-    socket.on('os-poll', (data) => {
-      socket.io.emit('os-vote', data)
-    })
-  })
-  
-  sendJSONresponse(res, 201, { "message": "Thank you for voting" })
-
-}
-
-//Trial pusher
 
 module.exports.createPatient = function (req, res) {
   if (!req.body.firstname || !req.body.lastname || !req.body.gender) {
@@ -45,11 +24,10 @@ module.exports.createPatient = function (req, res) {
   patient.village = req.body.village
   patient.occupation = req.body.occupation
 
-  patient.save(function (err, data) {
+  patient.save(function (err) {
     if (err) {
       sendJSONresponse(res, 404, { "err": err, "message": "Failed to create patient record" })
     } else {
-      //socketapi.io.on('patient_data', )
       sendJSONresponse(res, 201, { "message": "patient record created" });
 
     }
@@ -185,21 +163,38 @@ module.exports.patients_count_by_gender = function (req, res) {
 }
 
 module.exports.count_all_patients = function (req, res) {
+  // Patient
+  //   .countDocuments({})
+  //   .exec(function (err, patient) {
+  //     if (err) {
+  //       sendJSONresponse(res, 404, err)
+  //     } else {
+  //       sendJSONresponse(res, 200, patient)
+  //     }
+  //   })
+     async.series([
+        callback=>{
+          async.parallel([
+
+          ], callback);
+        }
+     ])
+     console.log(count_patients())
+
+}
+
+function count_patients() {
   Patient
     .countDocuments({})
     .exec(function (err, patient) {
       if (err) {
-        sendJSONresponse(res, 404, err)
+        return err
       } else {
-        socketapi.io.on('patient_created', (data) => {
-          data = patient
-          socketapi.io.broadcast.emit('patient', data)
-          sendJSONresponse(res, 200, data)
-        })
-
+        return patient
       }
     })
-
+    
+    
 }
 
 
