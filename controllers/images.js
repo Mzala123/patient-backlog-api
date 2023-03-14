@@ -29,7 +29,7 @@ module.exports.uploadImage = async function(req, res){
                 description: req.body.desc,
                 url: req.file.path
             })
-
+            console.log(req.file)
             await image.save();
             sendJSONresponse(res, 201, {"message":"image successfully saved"})
         }else{

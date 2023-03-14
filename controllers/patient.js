@@ -3,6 +3,13 @@ var Patient = mongoose.model("patient")
 var socketapi = require('../socketapi')
 const async = require("async")
 
+const RabbitMQ = require('../services/rabbitmq')
+
+const publisher = async() => {
+  const server = await RabbitMQ.publish()
+  return await server.createChannel()
+}
+
 
 var sendJSONresponse = function (res, status, content) {
   res.status(status)
@@ -10,7 +17,7 @@ var sendJSONresponse = function (res, status, content) {
 }
 
 
-module.exports.createPatient = function (req, res) {
+module.exports.createPatient = async function (req, res) {
   if (!req.body.firstname || !req.body.lastname || !req.body.gender) {
     sendJSONresponse(res, 400, { "message": "Fill in all required fields" })
     return;
@@ -32,6 +39,10 @@ module.exports.createPatient = function (req, res) {
 
     }
   })
+
+  const publish = await publisher()
+  publish.sendToQueue('live', Buffer.from(JSON.stringify(patient)))
+
 
 }
 
@@ -163,22 +174,16 @@ module.exports.patients_count_by_gender = function (req, res) {
 }
 
 module.exports.count_all_patients = function (req, res) {
-  // Patient
-  //   .countDocuments({})
-  //   .exec(function (err, patient) {
-  //     if (err) {
-  //       sendJSONresponse(res, 404, err)
-  //     } else {
-  //       sendJSONresponse(res, 200, patient)
-  //     }
-  //   })
-     async.series([
-        callback=>{
-          async.parallel([
-
-          ], callback);
-        }
-     ])
+  Patient
+    .countDocuments({})
+    .exec(function (err, patient) {
+      if (err) {
+        sendJSONresponse(res, 404, err)
+      } else {
+        sendJSONresponse(res, 200, patient)
+      }
+    })
+    
      console.log(count_patients())
 
 }
